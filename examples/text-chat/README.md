@@ -82,32 +82,32 @@ tools | array | 否 | 模型可以调用的工具列表。目前仅支持函数�
 top_p | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
 top_k | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
     
-    ### `messages` 字段对象参数说明
-    字段 | 类型 | 必填 | 允许值 | 说明
-    ---|---|---|---|---
-    role | string | 是 | system/user/assistant | 消息角色类型
-    content | string | 是 | - | 消息文本内容（最长4096字符）
-    name | string | 否 | - | 参与者名称（区分多用户场景）
+### `messages` 字段对象参数说明
+字段 | 类型 | 必填 | 允许值 | 说明
+---|---|---|---|---
+role | string | 是 | system/user/assistant | 消息角色类型
+content | string | 是 | - | 消息文本内容（最长4096字符）
+name | string | 否 | - | 参与者名称（区分多用户场景）
     
-    ### `stream_options` 字段对象参数说明
-    字段 | 类型 | 必填 | 允许值 | 说明
-    ---|---|---|---|---
-    include_usage |  boolean | 否 | true/false | 如果设置，在 data: [DONE] 消息之前将流式传输一个额外块，usage 字段将显示整个请求的 token 使用统计，choices 字段始终为空数组。 其他块也包含 usage 字段，但值为 null。注意：如果流中断，可能无法收到最终的使用情况块。
+### `stream_options` 字段对象参数说明
+字段 | 类型 | 必填 | 允许值 | 说明
+---|---|---|---|---
+include_usage |  boolean | 否 | true/false | 如果设置，在 data: [DONE] 消息之前将流式传输一个额外块，usage 字段将显示整个请求的 token 使用统计，choices 字段始终为空数组。 其他块也包含 usage 字段，但值为 null。注意：如果流中断，可能无法收到最终的使用情况块。
     
-    ### `tool_choice` 字段对象参数说明
-    值 | 类型 | 说明
-    ---|---|---
-    none | string | 模型不会调用任何工具，而是生成消息
-    auto | string | 模型可选择生成消息或调用一个或多个工具
-    required | string | 模型必须调用一个或多个工具
-    `{"type": "function", "function": {"name": "my_function"}}` | object | 模型调用指定的工具对象
+### `tool_choice` 字段对象参数说明
+值 | 类型 | 说明
+---|---|---
+none | string | 模型不会调用任何工具，而是生成消息
+auto | string | 模型可选择生成消息或调用一个或多个工具
+required | string | 模型必须调用一个或多个工具
+`{"type": "function", "function": {"name": "my_function"}}` | object | 模型调用指定的工具对象
     
-    ### `tools` 字段对象参数说明
-    字段 | 类型 | 必填 | 允许值 | 说明
-    ---|---|---|---|---
-    type | string | 是 | function | 工具类型
-    function | object | 是 | - | 工具对象。详见下表。
-
+### `tools` 字段对象参数说明
+字段 | 类型 | 必填 | 允许值 | 说明
+---|---|---|---|---
+type | string | 是 | function | 工具类型
+function | object | 是 | - | 工具对象。详见下表。
+        
 #### `tools`.`function` 字段对象参数说明
 字段 | 类型 | 必填 | 允许值 | 说明
 ---|---|---|---|---
