@@ -1,0 +1,93 @@
+
+# Please update YOUR_API_KEY and MODEL_ID to real values ​​when calling.
+# Default
+curl https://api-platform.ope.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $YOUR_API_KEY" \
+  -d '{
+    "model": "$MODEL_ID",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant."
+      },
+      {
+        "role": "user",
+        "content": "Hello!" 
+      }
+    ]
+  }'
+
+
+# Optional
+curl https://api-platform.ope.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $YOUR_API_KEY" \
+  -d '{
+    "model": "$MODEL_ID",
+    "messages": [
+      { "role": "system", "content": "You are a helpful assistant." },
+      { "role": "user", "content": "Hello!" }
+    ],
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "max_tokens": 200,
+    "frequency_penalty": 0,
+    "presence_penalty": 0
+  }'
+
+
+# Streaming
+curl https://api-platform.ope.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $YOUR_API_KEY" \
+  -d '{
+    "model": "$MODEL_ID",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant." 
+      },
+      {
+        "role": "user",
+        "content": "Hello!"
+      }
+    ],
+    "stream": true
+  }'
+
+
+# Functions
+curl https://api-platform.ope.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $YOUR_API_KEY" \
+  -d '{
+    "model": "$MODEL_ID",
+    "messages": [
+      { "role": "user", "content": "What is the weather like in Boston today?" }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_current_weather",
+          "description": "Get the current weather in a given location",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "City, e.g. Boston"
+              },
+              "unit": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"]
+              }
+            },
+            "required": ["location"]
+          }
+        }
+      }
+    ],
+    "tool_choice": \{"type": "function", "function": \{"name": "get_current_weather"\}\}
+  }'
