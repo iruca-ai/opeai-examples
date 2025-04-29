@@ -78,43 +78,43 @@ stream | boolean | 否 | 指定是否使用流式输出，・false：模型生�
 stream_options | object | 否 | 流式响应选项。仅当 stream: true 时设置。详见下表。
 temperature | integer | 否 | 采样温度，范围 0 到 2。较高的值（如 0.8）会使输出更随机，较低的值（如 0.2）则使输出更聚焦、确定性更高。一般建议调整此参数或 top_p，但不要同时调整两者。
 tool_choice | string/object | 否 | 控制模型调用哪个工具（如果有的话）。详见下表。
-tools | array | 否 | 模型可以调用的工具列表。目前仅支持函数作为工具。 使用此选项可以提供模型可能生成 JSON 输入的函数列表。最多支持 128 个函数。
+tools | array | 否 | 模型可以调用的工具列表。目前仅支持函数作为工具。 使用此选项可以提供模型可能生成 JSON 输入的函数列表。最多支持 128 个函数。详见下表。
 top_p | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
 top_k | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
 
-  ### `messages` 字段数组内的对象参数说明
-  字段 | 类型 | 必填 | 允许值 | 说明
-  ---|---|---|---|---
-  role | string | 是 | system/user/assistant | 消息角色类型
-  content | string | 是 | - | 消息文本内容（最长4096字符）
-  name | string | 否 | - | 参与者名称（区分多用户场景）
+### `messages` 字段对象参数说明
+字段 | 类型 | 必填 | 允许值 | 说明
+---|---|---|---|---
+role | string | 是 | system/user/assistant | 消息角色类型
+content | string | 是 | - | 消息文本内容（最长4096字符）
+name | string | 否 | - | 参与者名称（区分多用户场景）
 
-  ### `stream_options` 字段对象参数说明
-  字段 | 类型 | 必填 | 允许值 | 说明
-  ---|---|---|---|---
-  `include_usage` |  boolean | 否 | true/false | 如果设置，在 data: [DONE] 消息之前将流式传输一个额外块，usage 字段将显示整个请求的 token 使用统计，choices 字段始终为空数组。 其他块也包含 usage 字段，但值为 null。注意：如果流中断，可能无法收到最终的使用情况块。
+### `stream_options` 字段对象参数说明
+字段 | 类型 | 必填 | 允许值 | 说明
+---|---|---|---|---
+include_usage |  boolean | 否 | true/false | 如果设置，在 data: [DONE] 消息之前将流式传输一个额外块，usage 字段将显示整个请求的 token 使用统计，choices 字段始终为空数组。 其他块也包含 usage 字段，但值为 null。注意：如果流中断，可能无法收到最终的使用情况块。
 
-### 模型调用工具对象参数说明，属于`tool_choice`字段
+### `tool_choice` 字段对象参数说明
 值 | 类型 | 说明
 ---|---|---
-`none` | string | 模型不会调用任何工具，而是生成消息
-`auto` | string | 模型可选择生成消息或调用一个或多个工具
-`required` | string | 模型必须调用一个或多个工具
+none | string | 模型不会调用任何工具，而是生成消息
+auto | string | 模型可选择生成消息或调用一个或多个工具
+required | string | 模型必须调用一个或多个工具
 `{"type": "function", "function": {"name": "my_function"}}` | object | 模型调用指定的工具对象
 
-### 工具对象参数说明，属于`tools`字段
+### `tools` 字段对象参数说明
 字段 | 类型 | 必填 | 允许值 | 说明
 ---|---|---|---|---
-`type` | string | 是 | function | 工具类型
-`function` | object | 是 | - | 工具对象
+type | string | 是 | function | 工具类型
+function | object | 是 | - | 工具对象。详见下表。
 
-### 工具对象参数说明，属于`tools`.`function`字段
+#### `tools`.`function` 字段对象参数说明
 字段 | 类型 | 必填 | 允许值 | 说明
 ---|---|---|---|---
-`name` | string | 是 | - | 工具名称
-`strict` | boolean | 否 | true/false | 是否在生成函数调用时启用严格模式。如果设置为 true，模型将严格遵循 parameters 字段中定义的模式。
-`description` | string | 是 | - | 函数的描述，模型将根据描述选择何时以及如何调用函数。
-`parameters` | object | 是 | - | 以 JSON Schema 格式描述。
+name | string | 是 | - | 工具名称
+strict | boolean | 否 | true/false | 是否在生成函数调用时启用严格模式。如果设置为 true，模型将严格遵循 parameters 字段中定义的模式。
+description | string | 是 | - | 函数的描述，模型将根据描述选择何时以及如何调用函数。
+parameters | object | 是 | - | 以 JSON Schema 格式描述。
 
 ## 响应示例
 ```json
@@ -143,49 +143,48 @@ top_k | integer | 否 | 控制模型生成文本的多样性，值越大生成�
  }
  ```
 
-## API 返回对话补全对象说明-completion
+## API 返回对话补全对象说明
 字段 | 类型 | 说明
 ---|---|---
-choices | array | 对话补全结果列表
+choices | array | 对话补全结果列表。详见下表。
 created | integer | 对话补全创建的 Unix 时间戳（秒）。
 id  | string | 对话补全的唯一标识符。
 model | string | 用于对话补全的模型。
 object | string | 对象类型，始终为 chat.completion。
 system_fingerprint | string | 表示模型运行时后端配置的指纹。可与 seed 请求参数配合使用，以了解后端配置变更对确定性的影响。
-usage | object | 补全请求的使用统计数据。
+usage | object | 补全请求的使用统计数据。详见下表。
 
-### 返回对话补全对象说明-completion.usage
+### `usage` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 completion_tokens | integer | 生成的补全中的令牌数量。
 prompt_tokens | integer | 提示中的令牌数量。
 total_tokens | integer | 请求中使用的总令牌数（提示 + 补全）。
 
-
-### 对话补全结果对象说明-completion.choices
+### `choices` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 finish_reason | string | 对话补全结束原因.如果模型到达自然停止点或提供的停止序列，则为 stop；如果达到请求指定的最大令牌数，则为 length；如果因内容过滤器被删除内容，则为 content_filter；如果调用了工具，则为 tool_calls。
 index | integer | 对话补全结果的索引。
-message | object | 对话补全结果消息对象。
+message | object | 对话补全结果消息对象。详见下表。
 
-### 对话补全结果消息对象说明-completion.choices.message
+#### `choices`.`message` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 role | string | 消息作者的角色。
 content | string | 消息内容。
 reasoning_content | string | 仅适用于推理模型。内容为 assistant 消息中在最终答案之前的推理内容。
 refusal | string | 模型生成的拒绝消息。
-tool_calls | array | 模型生成的工具调用（例如函数调用）。
+tool_calls | array | 模型生成的工具调用（例如函数调用）。详见下表。
 
-### 对话补全结果消息内容对象说明-completion.choices.message.tool_calls
+##### `choices`.`message`.`tool_calls` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 id | string | 工具调用的唯一标识符。
 type | string | 工具调用的类型。目前仅支持 function。
-function | object | 工具调用的函数对象。
+function | object | 工具调用的函数对象。详见下表。
 
-### 对话补全结果消息内容函数对象说明-completion.choices.message.tool_calls.function
+###### `choices`.`message`.`tool_calls`.`function` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 name | string | 函数名称。  
@@ -219,40 +218,47 @@ for chunk in stream:
 {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"$MODEL_ID", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
 }
 ```
-## 流式响应数组说明-stream
+## 流式响应数组说明
 字段 | 类型 | 说明
 ---|---|---
-choices | array | 对话补全结果列表
+choices | array | 对话补全结果列表。详见下表。
 created | integer | 对话补全创建的 Unix 时间戳（秒）。
 id  | string | 对话补全的唯一标识符。
 model | string | 用于对话补全的模型。
 object | string | 对象类型，始终为 chat.completion.chunk。
 system_fingerprint | string | 表示模型运行时后端配置的指纹。可与 seed 请求参数配合使用，以了解后端配置变更对确定性的影响。
-usage | object | 补全请求的使用统计数据。
+usage | object | 补全请求的使用统计数据。详见下表。
 
-### 流式响应数组说明-stream.choices
+### `usage` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
-delta | object | 由流式模型响应生成的对话补全增量。
+completion_tokens | integer | 生成补全使用的令牌数。
+prompt_tokens | integer | 提示词使用的令牌数。
+total_tokens | integer | 请求中使用的令牌总数（提示 + 补全）。
+
+### `choices` 字段对象参数说明
+字段 | 类型 | 说明
+---|---|---
+delta | object | 由流式模型响应生成的对话补全增量。详见下表。
 finish_reason | string | 对话补全结束原因.如果模型到达自然停止点或提供的停止序列，则为 stop；如果达到请求指定的最大令牌数，则为 length；如果因内容过滤器被删除内容，则为 content_filter；如果调用了工具，则为 tool_calls。
 index | integer | 对话补全结果的索引。
 
-### 流式响应数组说明-stream.choices.delta
+#### `choices`.`delta` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 content | string | 生成的补全中的令牌数量。
 role | string | 提示中的令牌数量。
-tool_calls | array | 模型生成的工具调用（例如函数调用）。
+tool_calls | array | 模型生成的工具调用（例如函数调用）。详见下表。
 
-### 流式响应数组说明-stream.choices.delta.tool_calls
+##### `choices`.`delta`.`tool_calls` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 id | string | 工具调用的唯一标识符。
 type | string | 工具调用的类型。目前仅支持 function。
 index | string | 工具调用列表中的索引。
-function | object | 工具调用的函数对象。
+function | object | 工具调用的函数对象。详见下表。
 
-### 流式响应数组说明-stream.choices.delta.tool_calls.function
+###### `choices`.`delta`.`tool_calls`.`function` 字段对象参数说明
 字段 | 类型 | 说明
 ---|---|---
 name | string | 要调用的函数名称。
