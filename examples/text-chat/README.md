@@ -73,6 +73,7 @@ messages | array | 是 | 由目前为止对话消息组成的列表。详见下�
     role | string | 是 | system/user/assistant | 消息角色类型
     content | string | 是 | - | 消息文本内容（最长4096字符）
     name | string | 否 | - | 参与者名称（区分多用户场景）
+
 frequency_penalty | integer | 否 | 在 -2.0 到 2.0 之间。正值根据文本中已有的出现频率对新 token 进行惩罚，从而降低模型逐字重复同一行的可能性。
 max_tokens | integer | 否 | 对话补全中可生成的最大 token 数量。可以通过此值控制 API 生成文本的费用。
 parallel_tool_calls | boolean | 否 | 启用工具使用期间的并行函数调用。
