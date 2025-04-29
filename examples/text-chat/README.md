@@ -147,6 +147,7 @@ print(completion.choices[0].message)
 
 ## API 返回对话补全对象说明-completion
 字段 | 类型 | 说明
+---|---|---
 choices | array | 对话补全结果列表
 created | integer | 对话补全创建的 Unix 时间戳（秒）。
 id  | string | 对话补全的唯一标识符。
@@ -157,6 +158,7 @@ usage | object | 补全请求的使用统计数据。
 
 ### 返回对话补全对象说明-completion.usage
 字段 | 类型 | 说明
+---|---|---
 completion_tokens | integer | 生成的补全中的令牌数量。
 prompt_tokens | integer | 提示中的令牌数量。
 total_tokens | integer | 请求中使用的总令牌数（提示 + 补全）。
@@ -164,12 +166,14 @@ total_tokens | integer | 请求中使用的总令牌数（提示 + 补全）。
 
 ### 对话补全结果对象说明-completion.choices
 字段 | 类型 | 说明
+---|---|---
 finish_reason | string | 对话补全结束原因.如果模型到达自然停止点或提供的停止序列，则为 stop；如果达到请求指定的最大令牌数，则为 length；如果因内容过滤器被删除内容，则为 content_filter；如果调用了工具，则为 tool_calls。
 index | integer | 对话补全结果的索引。
 message | object | 对话补全结果消息对象。
 
 ### 对话补全结果消息对象说明-completion.choices.message
 字段 | 类型 | 说明
+---|---|---
 role | string | 消息作者的角色。
 content | string | 消息内容。
 reasoning_content | string | 仅适用于推理模型。内容为 assistant 消息中在最终答案之前的推理内容。
@@ -178,12 +182,14 @@ tool_calls | array | 模型生成的工具调用（例如函数调用）。
 
 ### 对话补全结果消息内容对象说明-completion.choices.message.tool_calls
 字段 | 类型 | 说明
+---|---|---
 id | string | 工具调用的唯一标识符。
 type | string | 工具调用的类型。目前仅支持 function。
 function | object | 工具调用的函数对象。
 
 ### 对话补全结果消息内容函数对象说明-completion.choices.message.tool_calls.function
 字段 | 类型 | 说明
+---|---|---
 name | string | 函数名称。  
 arguments | string | 模型以 JSON 格式生成的调用函数参数。请注意，模型可能不一定生成有效 JSON，也可能幻观出未存在的参数，调用函数前应验证。
 
@@ -217,6 +223,7 @@ for chunk in stream:
 ```
 ## 流式响应数组说明-stream
 字段 | 类型 | 说明
+---|---|---
 choices | array | 对话补全结果列表
 created | integer | 对话补全创建的 Unix 时间戳（秒）。
 id  | string | 对话补全的唯一标识符。
@@ -227,18 +234,21 @@ usage | object | 补全请求的使用统计数据。
 
 ### 流式响应数组说明-stream.choices
 字段 | 类型 | 说明
+---|---|---
 delta | object | 由流式模型响应生成的对话补全增量。
 finish_reason | string | 对话补全结束原因.如果模型到达自然停止点或提供的停止序列，则为 stop；如果达到请求指定的最大令牌数，则为 length；如果因内容过滤器被删除内容，则为 content_filter；如果调用了工具，则为 tool_calls。
 index | integer | 对话补全结果的索引。
 
 ### 流式响应数组说明-stream.choices.delta
 字段 | 类型 | 说明
+---|---|---
 content | string | 生成的补全中的令牌数量。
 role | string | 提示中的令牌数量。
 tool_calls | array | 模型生成的工具调用（例如函数调用）。
 
 ### 流式响应数组说明-stream.choices.delta.tool_calls
 字段 | 类型 | 说明
+---|---|---
 id | string | 工具调用的唯一标识符。
 type | string | 工具调用的类型。目前仅支持 function。
 index | string | 工具调用列表中的索引。
@@ -246,5 +256,6 @@ function | object | 工具调用的函数对象。
 
 ### 流式响应数组说明-stream.choices.delta.tool_calls.function
 字段 | 类型 | 说明
+---|---|---
 name | string | 要调用的函数名称。
 arguments | string | 模型以 JSON 格式生成的函数调用参数。请注意，模型生成的 JSON 可能无效，且可能生成未在函数模式中定义的参数。请在调用函数前自行验证参数。
