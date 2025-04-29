@@ -18,7 +18,7 @@ YOUR_API_KEY=your_api_key  # 替换为您的API密钥
 ```bash
 pip install openai
 ```
-
+# 一、普通对话补全
 ## default curl 示例
 ```bash
 curl https://api-platform.ope.ai/v1/chat/completions \
@@ -67,13 +67,7 @@ print(completion.choices[0].message)
 参数名 | 类型 | 是否必填 | 说明
 ---|---|---|---
 model | string | 是 | 用于生成回复的模型 ID。OPE.AI 提供了各种具有不同能力、性能特性和价格的模型。请参阅模型指南浏览和比较可用模型。
-messages | array | 是 | 由目前为止对话消息组成的列表。详见下表:
-    字段 | 类型 | 必填 | 允许值 | 说明
-    ---|---|---|---|---
-    role | string | 是 | system/user/assistant | 消息角色类型
-    content | string | 是 | - | 消息文本内容（最长4096字符）
-    name | string | 否 | - | 参与者名称（区分多用户场景）
-
+messages | array | 是 | 由目前为止对话消息组成的列表。详见下表。
 frequency_penalty | integer | 否 | 在 -2.0 到 2.0 之间。正值根据文本中已有的出现频率对新 token 进行惩罚，从而降低模型逐字重复同一行的可能性。
 max_tokens | integer | 否 | 对话补全中可生成的最大 token 数量。可以通过此值控制 API 生成文本的费用。
 parallel_tool_calls | boolean | 否 | 启用工具使用期间的并行函数调用。
@@ -196,6 +190,7 @@ function | object | 工具调用的函数对象。详见下表。
 name | string | 函数名称。  
 arguments | string | 模型以 JSON 格式生成的调用函数参数。请注意，模型可能不一定生成有效 JSON，也可能幻观出未存在的参数，调用函数前应验证。
 
+# 二、流式响应的对话补全
 ## 流式请求 python 示例
 ```bash
 client = OpenAI(
