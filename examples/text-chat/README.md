@@ -64,37 +64,35 @@ print(completion.choices[0].message)
 - POST https://api-platform.ope.ai/v1/chat/completions
 
 ## API 请求参数说明
-
 参数名 | 类型 | 是否必填 | 说明
 ---|---|---|---
-`model` | string | 是 | 用于生成回复的模型 ID。OPE.AI 提供了各种具有不同能力、性能特性和价格的模型。请参阅模型指南浏览和比较可用模型。
-`messages` | array | 是 | 由目前为止对话消息组成的列表。详见下表。
-`frequency_penalty` | integer | 否 | 在 -2.0 到 2.0 之间。正值根据文本中已有的出现频率对新 token 进行惩罚，从而降低模型逐字重复同一行的可能性。
-`max_tokens` | integer | 否 | 对话补全中可生成的最大 token 数量。可以通过此值控制 API 生成文本的费用。
-`parallel_tool_calls` | boolean | 否 | 启用工具使用期间的并行函数调用。
-`presence_penalty` | integer | 否 | 介于 -2.0 到 2.0 之间的数字。正值会根据新词是否已在文本中出现而对其进行惩罚，增加模型谈论新话题的可能性。
-`seed` | integer | 否 | 该功能目前处于 Beta 测试阶段。如果指定，系统将尽力进行确定性采样，即相同的 seed 和参数应返回相同的结果。但确定性不保证，需参阅响应中的 system_fingerprint 参数以监控后端变更。
-`stop` | array | 否 | 最多提供 4 个停止序列，API 在生成到这些序列时停止。返回文本中不会包含停止序列。
-`stream` | boolean | 否 | 指定是否使用流式输出，・false：模型生成完所有内容后一次性返回结果。 ・true：边生成边输出，即每生成一部分内容就立即输出一个片段（chunk）。您需要实时地逐个读取这些片段以获得完整的结果。
-`stream_options` | object | 否 | 流式响应选项。仅当 stream: true 时设置。详见下表。
-`temperature` | integer | 否 | 采样温度，范围 0 到 2。较高的值（如 0.8）会使输出更随机，较低的值（如 0.2）则使输出更聚焦、确定性更高。一般建议调整此参数或 top_p，但不要同时调整两者。
-`tool_choice` | string/object | 否 | 控制模型调用哪个工具（如果有的话）。详见下表。
-`tools` | array | 否 | 模型可以调用的工具列表。目前仅支持函数作为工具。 使用此选项可以提供模型可能生成 JSON 输入的函数列表。最多支持 128 个函数。
-`top_p` | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
-`top_k` | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
+model | string | 是 | 用于生成回复的模型 ID。OPE.AI 提供了各种具有不同能力、性能特性和价格的模型。请参阅模型指南浏览和比较可用模型。
+messages | array | 是 | 由目前为止对话消息组成的列表。详见下表。
+frequency_penalty | integer | 否 | 在 -2.0 到 2.0 之间。正值根据文本中已有的出现频率对新 token 进行惩罚，从而降低模型逐字重复同一行的可能性。
+max_tokens | integer | 否 | 对话补全中可生成的最大 token 数量。可以通过此值控制 API 生成文本的费用。
+parallel_tool_calls | boolean | 否 | 启用工具使用期间的并行函数调用。
+presence_penalty | integer | 否 | 介于 -2.0 到 2.0 之间的数字。正值会根据新词是否已在文本中出现而对其进行惩罚，增加模型谈论新话题的可能性。
+seed | integer | 否 | 该功能目前处于 Beta 测试阶段。如果指定，系统将尽力进行确定性采样，即相同的 seed 和参数应返回相同的结果。但确定性不保证，需参阅响应中的 system_fingerprint 参数以监控后端变更。
+stop | array | 否 | 最多提供 4 个停止序列，API 在生成到这些序列时停止。返回文本中不会包含停止序列。
+stream | boolean | 否 | 指定是否使用流式输出，・false：模型生成完所有内容后一次性返回结果。 ・true：边生成边输出，即每生成一部分内容就立即输出一个片段（chunk）。您需要实时地逐个读取这些片段以获得完整的结果。
+stream_options | object | 否 | 流式响应选项。仅当 stream: true 时设置。详见下表。
+temperature | integer | 否 | 采样温度，范围 0 到 2。较高的值（如 0.8）会使输出更随机，较低的值（如 0.2）则使输出更聚焦、确定性更高。一般建议调整此参数或 top_p，但不要同时调整两者。
+tool_choice | string/object | 否 | 控制模型调用哪个工具（如果有的话）。详见下表。
+tools | array | 否 | 模型可以调用的工具列表。目前仅支持函数作为工具。 使用此选项可以提供模型可能生成 JSON 输入的函数列表。最多支持 128 个函数。
+top_p | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
+top_k | integer | 否 | 控制模型生成文本的多样性，值越大生成的文本越不相同
 
+  ### `messages` 字段数组内的对象参数说明
+  字段 | 类型 | 必填 | 允许值 | 说明
+  ---|---|---|---|---
+  role | string | 是 | system/user/assistant | 消息角色类型
+  content | string | 是 | - | 消息文本内容（最长4096字符）
+  name | string | 否 | - | 参与者名称（区分多用户场景）
 
-### 消息对象参数说明，属于`messages`字段
-字段 | 类型 | 必填 | 允许值 | 说明
----|---|---|---|---
-`role` | string | 是 | system/user/assistant | 消息角色类型
-`content` | string | 是 | - | 消息文本内容（最长4096字符）
-`name` | string | 否 | - | 参与者名称（区分多用户场景）
-
-### 流式响应选项对象参数说明，属于`stream_options`字段
-字段 | 类型 | 必填 | 允许值 | 说明
----|---|---|---|---
-`include_usage` |  boolean | 否 | true/false | 如果设置，在 data: [DONE] 消息之前将流式传输一个额外块，usage 字段将显示整个请求的 token 使用统计，choices 字段始终为空数组。 其他块也包含 usage 字段，但值为 null。注意：如果流中断，可能无法收到最终的使用情况块。
+  ### `stream_options` 字段对象参数说明
+  字段 | 类型 | 必填 | 允许值 | 说明
+  ---|---|---|---|---
+  `include_usage` |  boolean | 否 | true/false | 如果设置，在 data: [DONE] 消息之前将流式传输一个额外块，usage 字段将显示整个请求的 token 使用统计，choices 字段始终为空数组。 其他块也包含 usage 字段，但值为 null。注意：如果流中断，可能无法收到最终的使用情况块。
 
 ### 模型调用工具对象参数说明，属于`tool_choice`字段
 值 | 类型 | 说明
