@@ -13,8 +13,10 @@
 
 ### 前置要求
 ```bash
+python 版本：3.12
+
 # 安装基础依赖
-pip install openai python-dotenv websocket-client
+pip install openai python-dotenv websocket-client requests
 ```
 
 ### 配置密钥
