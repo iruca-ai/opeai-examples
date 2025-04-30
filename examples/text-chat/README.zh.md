@@ -38,7 +38,7 @@ curl https://api-platform.ope.ai/v1/chat/completions \
     ]
   }'
 ```
-## 更多 DEMO 参照examples/text-chat/create-chat-completion/curl.txt
+## 更多 DEMO 参照 curl.txt
 
 ## default python 示例
 ```bash
@@ -58,7 +58,7 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message)
 
 ```
-## 更多 DEMO 参照examples/text-chat/create-chat-completion/demo.py
+## 更多 DEMO 参照 demo.py
 
 ## 请求地址
 - POST https://api-platform.ope.ai/v1/chat/completions
